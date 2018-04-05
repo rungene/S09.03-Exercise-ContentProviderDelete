@@ -317,6 +317,7 @@ SQLiteDatabase db = mOpenHelper.getWritableDatabase();
    if (null == selection) selection = "1";
 
         int match = sUriMatcher.match(uri);
+        
 
         int rowsDeleted;
 
