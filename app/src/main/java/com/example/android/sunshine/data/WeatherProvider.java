@@ -306,26 +306,37 @@ public class WeatherProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
       //  throw new RuntimeException("Student, you need to implement the delete method!");
 
-        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+   /*
+         * If we pass null as the selection to SQLiteDatabase#delete, our entire table will be
+         * deleted. However, if we do pass null and delete all of the rows in the table, we won't
+         * know how many rows were deleted. According to the documentation for SQLiteDatabase,
+         * passing "1" for the selection will delete all rows and return the number of rows
+         * deleted, which is what the caller of this method expects.
+         */
+   if (null == selection) selection = "1";
 
         int match = sUriMatcher.match(uri);
 
         int rowsDeleted;
 
         switch (match){
+            //only implement the functionality given the proper URI, to delete
+            //all rows in the weather table
 
-            case CODE_WEATHER_WITH_DATE:
+            case CODE_WEATHER:
 
-                String id = uri.getPathSegments().get(1);
+                //String id = uri.getPathSegments().get(1);
 
                 rowsDeleted = db.delete(WeatherContract.WeatherEntry.TABLE_NAME,
-                        "_id=?",new String[]{id}
+                        selection,
+                        selectionArgs
                         );
                 break;
                 default:
                 throw new UnsupportedOperationException("Unknown uri: "+uri);
         }
-
+//if we actually deleted any rows, notify that a change has occured to the URI
         if (rowsDeleted !=0){
             getContext().getContentResolver().notifyChange(uri,null);
 
