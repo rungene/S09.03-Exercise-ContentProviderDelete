@@ -317,7 +317,7 @@ SQLiteDatabase db = mOpenHelper.getWritableDatabase();
    if (null == selection) selection = "1";
 
         int match = sUriMatcher.match(uri);
-        
+
 
         int rowsDeleted;
 
@@ -326,6 +326,7 @@ SQLiteDatabase db = mOpenHelper.getWritableDatabase();
             //all rows in the weather table
 
             case CODE_WEATHER:
+                
 
                 //String id = uri.getPathSegments().get(1);
 
